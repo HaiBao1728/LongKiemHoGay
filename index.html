@@ -395,16 +395,11 @@
         let currTreeIndex = 0;
         let currGiftIndex = 0;
         let currOpenGiftIndex = 0;
-        let currentImageIndex = 1;
-        let lastTime = 0;
-        let mochiLastime = 0;
-        const changeInterval = 500;
         let moveSpeed = 500;
         const numOfMochi = 18;
         let numMochiCatched = 0;
         let catchedMochi = [];
-
-        let gift_loop; 
+        let moveMochiDirection = [];
 
         function createSnowflakes() {
             let snowflakeCount = 0;
@@ -438,39 +433,7 @@
             }, 15000);
         }
 
-        let mochi_loop = [];
-        function createMochiAnimation(timestamp, mochi, listImgMochi) {
-            if (!mochi.dataset.lastTime) {
-                mochi.dataset.lastTime = timestamp;
-            }
-
-            const elapsed = timestamp - parseFloat(mochi.dataset.lastTime);
-
-            if (elapsed > changeInterval) {
-                mochi.dataset.lastTime = timestamp;
-                
-                let currentImageIndex = parseInt(mochi.dataset.currentImageIndex || 0);
-                currentImageIndex = (currentImageIndex + 1) % listImgMochi.length;
-                
-                if (currentImageIndex > 0 && currentImageIndex < 3){
-                    mochi.src = listImgMochi[currentImageIndex];
-                }
-
-                mochi.dataset.currentImageIndex = currentImageIndex;
-            }
-        }
-
-        function callForStartMochiAnimation(mochi, listImgMochi) {
-            function wrappedCreateMochiAnimation(timestamp) {
-                createMochiAnimation(timestamp, mochi, listImgMochi);
-                mochi_loop[mochi.dataset.id] = requestAnimationFrame(wrappedCreateMochiAnimation);
-            }
-
-            /*
-            mochiLastime = 0;
-            */
-            mochi_loop = requestAnimationFrame(wrappedCreateMochiAnimation);
-        }
+        let mochiDockPairs = [];
 
         function createMovingMochi(mochiNum) {
             const mochi = document.createElement('img');
@@ -486,15 +449,15 @@
 
             document.body.appendChild(mochi);
 
-            callForStartMochiAnimation(mochi, listImgMochi);
+            let currentImageIndex = 1;
+            mochiInterval[mochiNum] = setInterval(() => {
+                currentImageIndex = (currentImageIndex + 1) % listImgMochi.length;
+                if (currentImageIndex > 0 && currentImageIndex < 3) {
+                    mochi.src = listImgMochi[currentImageIndex];
+                }
+            }, 60);
 
             moveMochi(mochi);
-        }
-
-        function createMochiPair() {
-            const mochiPair = document.createElement('div');
-            mochiPair.classList.add('mochi-pair');
-            return mochiPair;
         }
 
         function moveMochiToDock(mochi) {
@@ -524,11 +487,11 @@
         }
 
         function moveMochi(mochi) {
-            let moveDirection = Math.random() < 0.5 ? 'horizontal' : 'vertical';
+            moveMochiDirection[mochi.dataset.id] = Math.random() < 0.5 ? 'horizontal' : 'vertical';
             setInterval(() => {
                 let randomPosition;
 
-                if (moveDirection === 'horizontal') {
+                if (moveMochiDirection[mochi.dataset.id] === 'horizontal') {
                     randomPosition = Math.random() * (window.innerWidth - 80);
                     mochi.style.left = `${randomPosition}px`;
                 }
@@ -539,7 +502,7 @@
 
                 moveSpeed = 3000;
                 mochi.style.transitionDuration = `${moveSpeed}ms`;
-                moveDirection = Math.random() < 0.5 ? 'horizontal' : 'vertical';
+                moveMochiDirection[mochi.dataset.id] = Math.random() < 0.5 ? 'horizontal' : 'vertical';
             }, moveSpeed);
         }
 
@@ -561,6 +524,7 @@
                 mochi.onclick = null;
 
                 clearInterval(mochiInterval[id]);
+                clearInterval(moveMochiDirection[id]);
 
                 const listImage = mochiList[id];
                 mochi.src = listImage[3];
@@ -571,29 +535,6 @@
                 shakingGift();
             }
         }
- 
-
-        function updateImage(timestamp, gift) {
-
-            const elapsed = timestamp - lastTime;
-
-            if (elapsed > changeInterval) {
-                lastTime = timestamp;
-                currGiftIndex = (currGiftIndex + 1) % christmastGift.length;
-
-                gift.src = christmastGift[currGiftIndex];
-            }
-        }
-
-        function callForStartGiftAnimation(mochi) {
-            function wrappedUpdateImage(timestamp) {
-                updateImage(timestamp, mochi);
-                gift_loop = requestAnimationFrame(wrappedUpdateImage);
-            }
-
-            lastTime = 0;
-            gift_loop = requestAnimationFrame(wrappedUpdateImage);
-        }
 
         function startChristmastGiftAnimation() {
             const container = document.getElementById('container');
@@ -602,11 +543,15 @@
 
             container.appendChild(gift);
 
-            callForStartGiftAnimation(gift);
+            setTimeout(() => {
+                intervalGift = setInterval(() => {
+                currGiftIndex = (currGiftIndex + 1) % christmastGift.length;
+                gift.src = christmastGift[currGiftIndex];
+            }, 500);
+            }, 700);
         }
         
         function shakingGift() {
-            cancelAnimationFrame(gift_loop);
             const container = document.getElementById('container');
             container.innerHTML = '';
 
