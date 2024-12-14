@@ -430,7 +430,7 @@
 
             setTimeout(() => {
                 clearInterval(createInterval);
-            }, 15000);
+            }, 20000);
         }
 
         let mochiDockPairs = [];
@@ -455,7 +455,7 @@
                 if (currentImageIndex > 0 && currentImageIndex < 3) {
                     mochi.src = listImgMochi[currentImageIndex];
                 }
-            }, 1700);
+            }, 2000);
 
             moveMochi(mochi);
         }
@@ -577,6 +577,7 @@
             box.src = christmastGift[0];
             container.appendChild(box);
 
+            clearInterval(intervalGift);
             setTimeout(() => {
                 intervalOpenGift = setInterval(() => {
                 currOpenGiftIndex = (currOpenGiftIndex + 1) % openGift.length;
@@ -636,7 +637,8 @@
             imgElement.style.animation = 'fadeIn 2s forwards';
 
             clearInterval(interval); 
-            clearInterval(intervalGift)
+            clearInterval(intervalOpenGift);
+            clearInterval(intervalGift);
             setTimeout(() => {
                 interval = setInterval(() => {
                 currTreeIndex = (currTreeIndex + 1) % christmastTree.length;
