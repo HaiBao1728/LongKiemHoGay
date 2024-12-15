@@ -36,7 +36,7 @@ body {
     display: block;
     margin: 0 auto;
     flex-wrap: wrap; 
-    background-color: black;
+    background-color: #d24dff;
 }
 .container img {
     object-fit: contain;
