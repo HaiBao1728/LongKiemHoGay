@@ -38,7 +38,7 @@ html, body {
     justify-content: center;
     align-items: center;
     max-width: 100%;
-    width: 100vw;
+    width: auto;
     height: 100vh;
     display: block;
     margin: 0 auto;
