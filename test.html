@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Continuous Image Animation</title>
+    <style>
+        /* Tạo hiệu ứng di chuyển ảnh */
+        @keyframes slide {
+            0% {
+                content: url('https://res.cloudinary.com/ddbs8khla/image/upload/v1734093076/Long_T%C3%BAc_2_1_ebipp4.png'); /* Hình ảnh ban đầu */
+            }
+            50% {
+                content: url('https://res.cloudinary.com/ddbs8khla/image/upload/v1734093077/Long_T%C3%BAc_2_2_tsyfur.png'); /* Hình ảnh kết thúc */
+            }
+            100% {
+                content: url('https://res.cloudinary.com/ddbs8khla/image/upload/v1734093076/Long_T%C3%BAc_2_1_ebipp4.png'); /* Hình ảnh kết thúc */
+            }
+        }
+
+        /* Áp dụng animation cho phần tử */
+        .image-slider {
+            width: 300px;
+            height: auto;
+            animation: slide 4s infinite; /* Chạy animation liên tục */
+            transition: top 0.1s ease, left 0.1s ease;
+
+        }
+    </style>
+</head>
+<body>
+
+    <img class="image-slider" src="https://res.cloudinary.com/ddbs8khla/image/upload/v1734093077/Long_T%C3%BAc_2_2_tsyfur.png"/>
+
+</body>
+</html>

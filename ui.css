@@ -19,7 +19,7 @@ body {
 .stopBGM {
     position: fixed;
     width: 30px;
-    height: auto;
+    height: 30px;
     top: 10px;
     left: 15px;
     display: none;
@@ -112,7 +112,21 @@ img {
     width: 64px; 
     height: auto;
     z-index: 0;
+    background-size: cover;
     transition: top 0.1s ease, left 0.1s ease;
+    animation: changeMochiImage 4s infinite;
+}
+
+@keyframes changeMochiImage {
+    0% {
+        content: var(--image-0);
+    }
+    50% {
+        content: var(--image-1);
+    }
+    100% {
+        content: var(--image-2);
+    }
 }
 
 .mochi-dock {
@@ -202,7 +216,7 @@ img {
 }
 
 @keyframes shake {
-    0% { transform: translateX(0); }
+    0% { transform: translateX(10); }
     20% { transform: translateX(-10px); }
     40% { transform: translateX(10px); }
     60% { transform: translateX(-10px); }

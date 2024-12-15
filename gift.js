@@ -186,8 +186,13 @@ function createMovingMochi(mochiNum) {
 
     mochi.onclick = (event) => catchingMochi(event);
 
+    mochi.style.setProperty('--image-0', `url(${listImgMochi[2]})`);
+    mochi.style.setProperty('--image-1', `url(${listImgMochi[1]})`);
+    mochi.style.setProperty('--image-2', `url(${listImgMochi[2]})`);
+
     document.body.appendChild(mochi);
 
+    /*
     let currentImageIndex = 1;
     mochiInterval[mochiNum] = setInterval(() => {
         currentImageIndex = (currentImageIndex + 1) % listImgMochi.length;
@@ -195,6 +200,7 @@ function createMovingMochi(mochiNum) {
             mochi.src = listImgMochi[currentImageIndex];
         }
     }, 1700);
+    */
 
     moveMochi(mochi);
 }
