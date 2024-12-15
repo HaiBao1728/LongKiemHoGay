@@ -494,8 +494,17 @@ function resetAnimation() {
     catchedMochi = [];
 }
 
+function playBGM() {
+    const bgm = document.getElementById('bgm');
+    bgm.addEventListener('play', function() {
+        console.log('Nhạc đã được bật!');
+        bgm.style.display = 'none';
+    });
+}
+
 window.onload = () => {
     startChristmastGiftAnimation();
     createAllMochi(numOfMochi);
-    createSnowflakes();      
+    createSnowflakes();
+    playBGM();   
 };
