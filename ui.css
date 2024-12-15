@@ -11,13 +11,6 @@ body {
     position: relative;
 }
 
-html, body {
-    margin: 0;
-    margin-top: 20px;
-    padding: 0;
-    height: 100%;
-}
-
 .bgm {
     position: fixed;
     top: 0;
