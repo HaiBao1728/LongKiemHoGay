@@ -14,7 +14,6 @@ align-items: center;
 
 html, body {
     margin: 0;
-    margin-top: 20px;
     padding: 0;
     height: 100%;
 }
@@ -38,6 +37,7 @@ html, body {
     position: relative;
     justify-content: center;
     align-items: center;
+    justify-items: center;
     max-width: 100%;
     width: 90%;
     height: 65vh;
