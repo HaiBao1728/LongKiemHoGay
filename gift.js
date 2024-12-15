@@ -392,6 +392,7 @@ function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+/*
 function startChristmastTreeAnimation() {
     const container = document.getElementById('container');
     container.innerHTML = '';
@@ -442,6 +443,110 @@ function startChristmastTreeAnimation() {
         imgElement.style.animation = 'fadeIn 2s forwards';
     }, 500);
     }, 1200);
+}
+*/
+function startChristmastTreeAnimation() {
+    const container = document.getElementById('container');
+    container.innerHTML = '';
+
+    const animationContainer = document.getElementById('animation-container');
+    animationContainer.style.display = 'flex';
+    animationContainer.style.position = 'relative';  // Đảm bảo mochi có thể được định vị chính xác
+
+    // Tạo ảnh nền của cây Giáng Sinh
+    const background = document.createElement('img');
+    background.src = 'https://res.cloudinary.com/ddbs8khla/image/upload/v1734018693/N%E1%BB%81n_pcltfp.png';
+    background.style.zIndex = -3;
+    background.style.animation = 'fadeIn 2s forwards';
+    animationContainer.appendChild(background);
+
+    // Tạo các món quà
+    const frontGift = document.createElement('img');
+    frontGift.src = 'https://res.cloudinary.com/ddbs8khla/image/upload/v1734096568/Qu%C3%A0_tr%C6%B0%E1%BB%9Bc_wdlksh.png';
+    frontGift.style.zIndex = 2;
+    frontGift.style.animation = 'fadeIn 2s forwards';
+    animationContainer.appendChild(frontGift);
+
+    const backGift = document.createElement('img');
+    backGift.src = 'https://res.cloudinary.com/ddbs8khla/image/upload/v1734096567/Qu%C3%A0_sau_jfurcw.png';
+    backGift.style.zIndex = -2;
+    backGift.style.animation = 'fadeIn 2s forwards';
+    animationContainer.appendChild(backGift);
+
+    const middleGift = document.createElement('img');
+    middleGift.src = 'https://res.cloudinary.com/ddbs8khla/image/upload/v1734096566/Qu%C3%A0_gi%E1%BB%AFa_by4jjm.png';
+    middleGift.style.zIndex = 1;
+    middleGift.style.animation = 'fadeIn 2s forwards';
+    animationContainer.appendChild(middleGift);
+
+    // Tạo cây Giáng Sinh
+    const imgElement = document.createElement('img');
+    imgElement.onclick = resetAnimation;
+    imgElement.style.zIndex = -1;
+    animationContainer.appendChild(imgElement);
+    imgElement.src = christmastTree[0];
+    imgElement.style.animation = 'fadeIn 2s forwards';
+
+    // Làm mới các interval
+    clearInterval(interval); 
+    clearInterval(intervalGift);
+    interval = null;
+    intervalGift = null;
+
+    setTimeout(() => {
+        interval = setInterval(() => {
+            currTreeIndex = (currTreeIndex + 1) % christmastTree.length;
+            imgElement.src = christmastTree[currTreeIndex];
+            imgElement.style.animation = 'fadeIn 2s forwards';
+        }, 500);
+    }, 1200);
+
+    // Thêm mochi vào animationContainer
+    addMochisToTree(animationContainer);
+}
+
+function addMochisToTree(animationContainer) {
+    const mochiPositions = [
+        { x: 1, y: 2 }, // Vị trí 1-2
+        { x: 2, y: 2 }, // Vị trí 2-2
+        { x: 3, y: 1 }, // Vị trí 3-1
+        { x: 3, y: 2 }, // Vị trí 3-2
+        { x: 3, y: 3 }  // Vị trí 3-3
+    ];
+
+    // Lấy kích thước của ảnh nền để tính toán vị trí chính xác
+    const backgroundRect = animationContainer.getBoundingClientRect();
+
+    mochiPositions.forEach((pos) => {
+        const mochi = document.createElement('img');
+        mochi.src = 'mochi_image.png';  // Hình ảnh của mochi
+        mochi.style.position = 'absolute';
+        mochi.style.width = '40px';  // Kích thước mochi (có thể thay đổi)
+        mochi.style.height = '40px';
+
+        // Tính toán vị trí của mochi dựa trên vị trí của background (3x3)
+        const xStart = (pos.x - 1) * (backgroundRect.width / 3); // Bắt đầu của mỗi ô
+        const yStart = (pos.y - 1) * (backgroundRect.height / 3);
+        const xEnd = xStart + (backgroundRect.width / 3);  // Đến cuối của mỗi ô
+        const yEnd = yStart + (backgroundRect.height / 3);
+
+        // Random hóa vị trí trong mỗi ô đã xác định (trừ dòng 3 sẽ nằm ở nửa dưới)
+        let xPos = xStart + Math.random() * (xEnd - xStart); // Random vị trí ngang
+        let yPos;
+
+        if (pos.y === 3) {
+            // Dòng 3: chỉ đứng trong nửa dưới
+            yPos = yStart + Math.random() * ((yEnd - yStart) / 2) + (yEnd - yStart) / 2; // Nửa dưới của ô
+        } else {
+            // Dòng khác: full ô
+            yPos = yStart + Math.random() * (yEnd - yStart);
+        }
+
+        mochi.style.top = `${yPos}px`;
+        mochi.style.left = `${xPos}px`;
+
+        animationContainer.appendChild(mochi);
+    });
 }
 
 function resetAnimation() {
