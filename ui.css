@@ -10,6 +10,13 @@ body {
     position: relative;
 }
 
+.bgm {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: none;
+}
+
 .container {
     position: relative;
     justify-content: center;
