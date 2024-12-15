@@ -16,6 +16,15 @@ body {
     left: 0;
 }
 
+.stopBGM {
+    position: fixed;
+    width: 30px;
+    height: auto;
+    top: 10px;
+    left: 15px;
+    display: none;
+}
+
 .container {
     position: relative;
     justify-content: center;

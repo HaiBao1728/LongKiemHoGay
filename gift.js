@@ -499,7 +499,17 @@ function playBGM() {
     bgm.addEventListener('play', function() {
         console.log('Nhạc đã được bật!');
         bgm.style.display = 'none';
+        stopBGM = document.getElementById('stopBGM');
+        stopBGM.style.display = 'block';
     });
+}
+
+function stopMusic() {
+    const bgm = document.getElementById('bgm');
+    bgm.pause();
+    bgm.style.display = 'block';
+    stopBGM = document.getElementById('stopBGM');
+    stopBGM.style.display = 'none';
 }
 
 window.onload = () => {
