@@ -430,7 +430,7 @@
 
             setTimeout(() => {
                 clearInterval(createInterval);
-            }, 20000);
+            }, 15000);
         }
 
         let mochiDockPairs = [];
@@ -455,7 +455,7 @@
                 if (currentImageIndex > 0 && currentImageIndex < 3) {
                     mochi.src = listImgMochi[currentImageIndex];
                 }
-            }, 2000);
+            }, 1700);
 
             moveMochi(mochi);
         }
@@ -487,11 +487,11 @@
         }
 
         function moveMochi(mochi) {
-            moveMochiDirection[mochi.dataset.id] = Math.random() < 0.5 ? 'horizontal' : 'vertical';
-            setInterval(() => {
+            let moveDirection = Math.random() < 0.5 ? 'horizontal' : 'vertical';
+            moveMochiDirection[mochi.dataset.id] = setInterval(() => {
                 let randomPosition;
 
-                if (moveMochiDirection[mochi.dataset.id] === 'horizontal') {
+                if (moveDirection === 'horizontal') {
                     randomPosition = Math.random() * (window.innerWidth - 80);
                     mochi.style.left = `${randomPosition}px`;
                 }
@@ -502,37 +502,109 @@
 
                 moveSpeed = 3000;
                 mochi.style.transitionDuration = `${moveSpeed}ms`;
-                moveMochiDirection[mochi.dataset.id] = Math.random() < 0.5 ? 'horizontal' : 'vertical';
+                moveDirection = Math.random() < 0.5 ? 'horizontal' : 'vertical';
             }, moveSpeed);
+        }
+
+        function stopMochiMovement(mochiNum){
+            clearInterval(moveMochiDirection[mochiNum]);
+            moveMochiDirection[mochiNum] = null;
+        }
+
+        function stopMochiAnimation(mochiNum) {
+            clearInterval(mochiInterval[mochiNum]);
+            mochiInterval[mochiNum] = null;
+        }
+
+        function addMochiToCell(mochi, mochiCell) {
+            mochiCell.innerHTML = '';
+            mochiCell.appendChild(mochi); 
+            mochi.onclick = null; 
+            mochi.style.position = 'static';
+            mochi.style.transition = 'none';
+            mochi.onclick = null;
+
+            stopMochiMovement(parseInt(mochi.dataset.id));
+            stopMochiAnimation(parseInt(mochi.dataset.id));
+
+            const listImage = mochiList[parseInt(mochi.dataset.id)];
+            mochi.src = listImage[3];
+
+            catchedMochi[parseInt(mochi.dataset.id)] = true;
+            
+            numMochiCatched = numMochiCatched + 1;
+            if (numMochiCatched === numOfMochi) {
+                shakingGift();
+            }
         }
 
         let interval;
         let intervalGift;
-
         function catchingMochi(event) {
             const mochi = event.target;
             const id = parseInt(mochi.dataset.id);
 
             const mochiCell = document.querySelector(`.mochi-cell[data-id="${id}"]`);
 
-            if (mochiCell) {
-                mochiCell.innerHTML = '';
-                mochiCell.appendChild(mochi); 
-                mochi.onclick = null; 
-                mochi.style.position = 'static';
-                mochi.style.transition = 'none';
-                mochi.onclick = null;
+            if (id % 2 === 0) {
+                if (mochiCell) {
+                    addMochiToCell(mochi, mochiCell);          
+                }
 
-                clearInterval(mochiInterval[id]);
-                clearInterval(moveMochiDirection[id]);
-
-                const listImage = mochiList[id];
-                mochi.src = listImage[3];
+                if (catchedMochi[id+1] !== true) {
+                    moveMochiToLover(mochi);
+                }  
             }
 
-            numMochiCatched = numMochiCatched + 1;
-            if (numMochiCatched === numOfMochi) {
-                shakingGift();
+            else {
+                addMochiToCell(mochi, mochiCell);
+            }
+        }
+
+        function moveMochiToLover(mochi) {
+            const mochiCell = document.querySelector(`.mochi-cell[data-id="${mochi.dataset.id}"]`);
+
+            if (mochiCell) {
+                const rect = mochiCell.getBoundingClientRect();
+                const targetX = rect.left + window.scrollX;
+                const targetY = rect.top + window.scrollY;
+
+                const mochiPair = document.querySelector(`.mochi[data-id="${parseInt(mochi.dataset.id) + 1}"]`);
+
+                if (mochiPair) {
+                    stopMochiMovement(parseInt(mochiPair.dataset.id));
+                    stopMochiAnimation(parseInt(mochiPair.dataset.id));
+
+                    const listImage = mochiList[parseInt(mochiPair.dataset.id)];
+                    mochiPair.src = listImage[1];
+
+                    mochiPair.style.transition = 'none';
+                    mochiPair.style.position = 'absolute';
+                    mochiPair.style.left = `${mochiPair.offsetLeft}px`;
+                    mochiPair.style.top = `${mochiPair.offsetTop}px`;
+
+                    let moveInterval = setInterval(() => {
+                        const currentX = mochiPair.offsetLeft;
+                        const currentY = mochiPair.offsetTop;
+
+                        const deltaX = targetX - currentX;
+                        const deltaY = targetY - currentY;
+
+                        const moveStep = 2;
+
+                        let moveX = Math.abs(deltaX) > moveStep ? moveStep * Math.sign(deltaX) : deltaX;
+                        let moveY = Math.abs(deltaY) > moveStep ? moveStep * Math.sign(deltaY) : deltaY;
+
+                        mochiPair.style.left = `${currentX + moveX}px`;
+                        mochiPair.style.top = `${currentY + moveY}px`;
+
+                        if (Math.abs(deltaX) <= 50 && Math.abs(deltaY) <= 50) {
+                            clearInterval(moveInterval);
+                            const mochiCellPair = document.querySelector(`.mochi-cell[data-id="${mochiPair.dataset.id}"]`);
+                            addMochiToCell(mochiPair, mochiCellPair);
+                        }
+                    }, 16);
+                }
             }
         }
 
@@ -566,7 +638,7 @@
             setTimeout(() => {
                 box.classList.remove('shake');
                 openChristmastGift();
-            }, 1900);
+            }, 2500);
         }
 
         function openChristmastGift() {
@@ -577,7 +649,6 @@
             box.src = christmastGift[0];
             container.appendChild(box);
 
-            clearInterval(intervalGift);
             setTimeout(() => {
                 intervalOpenGift = setInterval(() => {
                 currOpenGiftIndex = (currOpenGiftIndex + 1) % openGift.length;
@@ -637,8 +708,7 @@
             imgElement.style.animation = 'fadeIn 2s forwards';
 
             clearInterval(interval); 
-            clearInterval(intervalOpenGift);
-            clearInterval(intervalGift);
+            clearInterval(intervalGift)
             setTimeout(() => {
                 interval = setInterval(() => {
                 currTreeIndex = (currTreeIndex + 1) % christmastTree.length;
