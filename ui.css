@@ -112,9 +112,6 @@ img {
     width: 64px; 
     height: auto;
     z-index: 0;
-    background-size: cover;
-    transition: top 0.1s ease, left 0.1s ease;
-    animation: changeMochiImage 4s infinite;
 }
 
 @keyframes changeMochiImage {
@@ -129,61 +126,9 @@ img {
     }
 }
 
-.mochi-dock {
-    position: fixed;
-    bottom: 0;
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    justify-items: center;
-    align-items: center;
-    padding: 10px;
-    z-index: 2;
-    gap: 10px;
-    z-index: 2;
-    width: 100%;
-}
-
-@media (max-width: 1200px) {
-    .mochi-dock {
-        grid-template-columns: repeat(5, 1fr);
-    }
-}
-
-@media (max-width: 900px) {
-    .mochi-dock {
-        grid-template-columns: repeat(4, 1fr);
-    }
-}
-
-@media (max-width: 600px) {
-    .mochi-dock {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-@media (max-width: 400px) {
-    .mochi-dock {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 300px) {
-    .mochi-dock {
-        grid-template-columns: 1fr;
-    }
-}
-
-.mochi-pair {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 5px;
-}
-
-.mochi-dock img {
-    width: 50px;
-    height: auto;
-    cursor: default;
+.changeMochiImage {
+    transition: top 0.1s ease, left 0.1s ease;
+    animation: changeMochiImage 4s infinite;
 }
 
 #mochi-grid {
@@ -226,4 +171,20 @@ img {
 
 .shake {
     animation: shake 0.5s ease-in-out;
+}
+
+@keyframes changeGiftImage {
+    0% {
+        content: url('https://res.cloudinary.com/ddbs8khla/image/upload/v1734101580/H%E1%BB%99p_qu%C3%A0_2_n52efi.png');
+    }
+    50% {
+        content: url('https://res.cloudinary.com/ddbs8khla/image/upload/v1734101581/H%E1%BB%99p_qu%C3%A0_1_bvq554.png');
+    }
+    100% {
+        content: url('https://res.cloudinary.com/ddbs8khla/image/upload/v1734101580/H%E1%BB%99p_qu%C3%A0_2_n52efi.png');
+    }
+}
+
+.changeGiftImage {
+    animation: changeGiftImage 1.2s infinite;
 }

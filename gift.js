@@ -186,6 +186,7 @@ function createMovingMochi(mochiNum) {
 
     mochi.onclick = (event) => catchingMochi(event);
 
+    mochi.classList.add('changeMochiImage');
     mochi.style.setProperty('--image-0', `url(${listImgMochi[2]})`);
     mochi.style.setProperty('--image-1', `url(${listImgMochi[1]})`);
     mochi.style.setProperty('--image-2', `url(${listImgMochi[2]})`);
@@ -203,26 +204,6 @@ function createMovingMochi(mochiNum) {
     */
 
     moveMochi(mochi);
-}
-
-function moveMochiToDock(mochi) {
-    const dock = document.getElementById('mochi-dock');
-    const id = parseInt(mochi.dataset.id);
-    let lastPair = dock.lastElementChild;
-
-    if (!lastPair || lastPair.childElementCount === 2) {
-        lastPair = createMochiPair();
-        dock.appendChild(lastPair);
-    }
-    
-    mochi.style.position = 'static';
-    mochi.style.transition = 'none';
-    mochi.onclick = null;
-
-    const listImage = mochiList[id];
-    mochi.src = listImage[3];
-
-    lastPair.appendChild(mochi);
 }
 
 function createAllMochi(count) {
@@ -267,6 +248,7 @@ function addMochiToCell(mochi, mochiCell) {
     mochi.onclick = null; 
     mochi.style.position = 'static';
     mochi.style.transition = 'none';
+    mochi.style.animation = 'none';
 
     stopMochiMovement(parseInt(mochi.dataset.id));
     stopMochiAnimation(parseInt(mochi.dataset.id));
@@ -319,6 +301,7 @@ function moveMochiToLover(mochi) {
             mochiPair.onclick = null;
             stopMochiMovement(parseInt(mochiPair.dataset.id));
             stopMochiAnimation(parseInt(mochiPair.dataset.id));
+            mochiPair.classList.remove('changeMochiImage');
 
             const listImage = mochiList[parseInt(mochiPair.dataset.id)];
             mochiPair.src = listImage[1];
@@ -354,41 +337,17 @@ function moveMochiToLover(mochi) {
     }
 }
 
-function updateChristmastGiftImage(timestamp, gift) {
-
-    const elapsed = timestamp - lastTime;
-
-    if (elapsed > changeMainImage) {
-        lastTime = timestamp;
-        currGiftIndex = (currGiftIndex + 1) % christmastGift.length;
-
-        gift.src = christmastGift[currGiftIndex];
-    }
-}
-
-    function callForStartGiftAnimation(mochi) {
-    function wrappedUpdateImage(timestamp) {
-        updateChristmastGiftImage(timestamp, mochi);
-        gift_loop = requestAnimationFrame(wrappedUpdateImage);
-    }
-
-    lastTime = 0;
-    gift_loop = requestAnimationFrame(wrappedUpdateImage);
-}
-
 function startChristmastGiftAnimation() {
     const container = document.getElementById('container');
 
     const gift = document.createElement('img');
 
-    container.appendChild(gift);
+    gift.classList.add('changeGiftImage');
 
-    callForStartGiftAnimation(gift);
+    container.appendChild(gift);
 }
 
 function shakingGift() {
-    cancelAnimationFrame(gift_loop);
-    gift_loop = null;
     const container = document.getElementById('container');
     container.innerHTML = '';
 
@@ -435,7 +394,7 @@ function delay(ms) {
 
 function startChristmastTreeAnimation() {
     const container = document.getElementById('container');
-    container.style.display = 'none';
+    container.innerHTML = '';
 
     const animationContainer = document.getElementById('animation-container');
     animationContainer.style.display = 'flex';
