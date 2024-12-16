@@ -13,7 +13,6 @@ body {
 
 html, body {
     margin: 0;
-    margin-top: 20px;
     padding: 0;
     height: 100%;
 }
@@ -37,12 +36,13 @@ html, body {
     position: relative;
     justify-content: center;
     align-items: center;
+    justify-items: center;
     max-width: 100%;
     width: 100vw;
     height: 100vh;
     display: block;
     margin: 0 auto;
-    flex-wrap: wrap; 
+    background-color: black;
 }
 .container img {
     object-fit: contain;
@@ -72,7 +72,7 @@ html, body {
 @media screen and (min-width: 768px) {
     #container {
         width: 90%;
-        height: 65vh;
+        height: 70vh;
     }
 
     #container img {
