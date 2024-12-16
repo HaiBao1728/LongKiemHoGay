@@ -71,8 +71,8 @@ html, body {
 
 @media screen and (min-width: 768px) {
     #container {
-        width: 80%;
-        height: auto;
+        width: 90%;
+        height: 65vh;
     }
 
     #container img {
