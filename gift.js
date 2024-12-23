@@ -347,6 +347,10 @@ function startChristmastGiftAnimation() {
     container.appendChild(gift);
 }
 
+function mochiPing(){
+
+}
+
 function shakingGift() {
     const container = document.getElementById('container');
     container.innerHTML = '';
@@ -365,6 +369,7 @@ function shakingGift() {
     }, 1900);
 }
 
+let intervalOpenGift;
 function openChristmastGift() {
     const container = document.getElementById('container');
     container.innerHTML = '';
@@ -398,6 +403,11 @@ function startChristmastTreeAnimation() {
 
     const animationContainer = document.getElementById('animation-container');
     animationContainer.style.display = 'flex';
+    animationContainer.innerHTML = '';
+
+    const mochi_grid = document.getElementById('mochi-grid');
+    mochi_grid.style.animation = 'fadeOut 2s forwards';
+    mochi_grid.innerHTML = '';
 
     const background = document.createElement('img');
     background.src = 'https://res.cloudinary.com/ddbs8khla/image/upload/v1734018693/N%E1%BB%81n_pcltfp.png';
@@ -431,10 +441,25 @@ function startChristmastTreeAnimation() {
     imgElement.src = christmastTree[0];
     imgElement.style.animation = 'fadeIn 2s forwards';
 
+    const mochiPing = document.createElement('img');
+    mochiPing.src = 'https://res.cloudinary.com/ddbs8khla/image/upload/v1734949967/Treo_1_ehoges.png';
+    mochiPing.style.zIndex = 3;
+    mochiPing.style.animation = 'fadeIn 2s forwards';
+    animationContainer.appendChild(mochiPing);
+    let toggle = true;
+    setInterval(() => {
+        mochiPing.src = toggle
+            ? 'https://res.cloudinary.com/ddbs8khla/image/upload/v1734949967/Treo_2_inz9ok.png'
+            : 'https://res.cloudinary.com/ddbs8khla/image/upload/v1734949967/Treo_1_ehoges.png';
+        toggle = !toggle;
+    }, 2000);
+
     clearInterval(interval); 
-    clearInterval(intervalGift)
+    clearInterval(intervalGift);
+    clearInterval(intervalOpenGift);
     interval = null;
     intervalGift = null;
+    intervalOpenGift = null;
     setTimeout(() => {
         interval = setInterval(() => {
         currTreeIndex = (currTreeIndex + 1) % christmastTree.length;

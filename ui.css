@@ -132,6 +132,15 @@ img {
     }
 }
 
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
 .snowflake {
     position: absolute;
     top: -10px;
@@ -231,4 +240,20 @@ img {
 
 .changeGiftImage {
     animation: changeGiftImage 1.2s infinite;
+}
+
+@keyframes mochiPingAnimation {
+    0% {
+        content: url('https://res.cloudinary.com/ddbs8khla/image/upload/v1734949967/Treo_2_inz9ok.png');
+    }
+    50% {
+        content: url('https://res.cloudinary.com/ddbs8khla/image/upload/v1734949967/Treo_1_ehoges.png');
+    }
+    100% {
+        content: url('https://res.cloudinary.com/ddbs8khla/image/upload/v1734949967/Treo_2_inz9ok.png');
+    }
+}
+
+.mochiPingAnimation {
+    animation: mochiPingAnimation 1.5s infinite;
 }
