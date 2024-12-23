@@ -408,6 +408,7 @@ function startChristmastTreeAnimation() {
     const mochi_grid = document.getElementById('mochi-grid');
     mochi_grid.style.animation = 'fadeOut 2s forwards';
     mochi_grid.innerHTML = '';
+    mochi_grid.style.display = 'none';
 
     const background = document.createElement('img');
     background.src = 'https://res.cloudinary.com/ddbs8khla/image/upload/v1734018693/N%E1%BB%81n_pcltfp.png';
