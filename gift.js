@@ -453,7 +453,7 @@ function startChristmastTreeAnimation() {
             ? 'https://res.cloudinary.com/ddbs8khla/image/upload/v1734949967/Treo_2_inz9ok.png'
             : 'https://res.cloudinary.com/ddbs8khla/image/upload/v1734949967/Treo_1_ehoges.png';
         toggle = !toggle;
-    }, 2000);
+    }, 800);
 
     clearInterval(interval); 
     clearInterval(intervalGift);
